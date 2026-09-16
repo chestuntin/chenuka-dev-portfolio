@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Chenuka Jayathilake designs products, builds websites, and turns ideas into useful digital experiences." />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Chenuka Jayathilake</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23181716'/%3E%3Cpath d='M22.7 22.1c-1.7 1.6-3.8 2.4-6.2 2.4-4.8 0-8.2-3.5-8.2-8.5s3.5-8.5 8.3-8.5c2.4 0 4.4.8 6 2.3l-2.2 2.4a5.2 5.2 0 0 0-3.7-1.5c-2.8 0-4.8 2.1-4.8 5.3s2 5.3 4.8 5.3c1.5 0 2.8-.5 3.9-1.6z' fill='white'/%3E%3C/svg%3E" />
+    <script>
+      try {
+        if (localStorage.getItem('portfolio-night-mode') === 'on') document.documentElement.dataset.theme = 'dark';
+      } catch (_) {}
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #171717;
+        --muted: #666666;
+        --line: #dedede;
+        --soft: #f7f7f7;
+        --link: #1658c8;
+        --paper: #ffffff;
+        --canvas: #8b8b8b;
+      }
+
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --ink: #f0efed;
+        --muted: #aaa7a2;
+        --line: #393837;
+        --soft: #222120;
+        --link: #9bbaff;
+        --paper: #191817;
+        --canvas: #090909;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        text-rendering: optimizeLegibility;
+      }
+
+      a {
+        color: var(--link);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.16em;
+      }
+
+      a:hover { text-decoration-thickness: 2px; }
+      a:focus-visible { outline: 3px solid #f2c94c; outline-offset: 4px; }
+
+      .page {
+        position: relative;
+        width: min(100% - 32px, 1000px);
+        min-height: calc(100vh - 32px);
+        margin: 16px auto;
+        background: var(--paper);
+        border: 1px solid #d2d2d2;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.09);
+      }
+
+      :root[data-theme="dark"] .page { border-color: #343230; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3); }
+
+      .contact-links { align-items: center; gap: 9px; }
+
+      .contact-eyes {
+        --look-x: 0px;
+        --look-y: 0px;
+        display: flex;
+        flex: 0 0 25px;
+        gap: 2px;
+        width: 25px;
+        height: 16px;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .contact-eye {
+        position: relative;
+        display: block;
+        width: 10px;
+        height: 13px;
+        overflow: hidden;
+        background: var(--paper);
+        border: 1.25px solid var(--ink);
+        border-radius: 50%;
+        transform-origin: center;
+      }
+
+      .contact-pupil {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 4px;
+        height: 5px;
+        background: var(--ink);
+        border-radius: 50%;
+        transform: translate(calc(-50% + var(--look-x)), calc(-50% + var(--look-y)));
+        transition: transform 90ms ease-out;
+      }
+
+      .contact-eyes.is-blinking .contact-eye {
+        animation: contact-blink 170ms ease-in-out;
+      }
+
+      .overscroll-banner {
+        width: 100%;
+        height: 0;
+        overflow: hidden;
+        background: #111;
+      }
+
+      .overscroll-banner.is-pulling {
+        height: var(--pull-height, 0px);
+      }
+
+      .overscroll-banner.is-revealed {
+        height: clamp(100px, 33.333vw, 220px);
+      }
+
+      .overscroll-banner img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 50%;
+      }
+
+      body, body * {
+        cursor: none !important;
+      }
+
+      #pointer-dot {
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 12px;
+        height: 12px;
+        border: 1px solid rgba(255, 0, 0, 0.8);
+        border-radius: 50%;
+        background: rgba(255, 0, 0, 0.2);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition: width 160ms ease, height 160ms ease;
+      }
+
+      #pointer-trail {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+      }
+
+      #pointer-dot.is-near-link {
+        width: 18px;
+        height: 18px;
+      }
+
+      #pointer-dot[hidden] {
+        display: none;
+      }
+
+      @keyframes contact-blink {
+        0%, 100% { transform: scaleY(1); }
+        48%, 52% { transform: scaleY(0.08); }
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 48px;
+        padding: 0 36px;
+        border-bottom: 1px solid #d7d7d7;
+      }
+
+      :root[data-theme="dark"] .topbar { border-bottom-color: #343230; }
+
+      .topnav { display: flex; gap: 18px; margin-right: auto; }
+      .topnav a {
+        color: var(--muted);
+        font-size: 0.88rem;
+        text-decoration: none;
+      }
+      .topnav a:hover { color: var(--ink); text-decoration: underline; }
+
+      .topbar-controls { display: flex; align-items: center; gap: 14px; }
+
+      .switch-setting { position: relative; display: inline-flex; align-items: center; }
+
+      .switch-setting::after {
+        position: absolute;
+        z-index: 20;
+        top: calc(100% + 8px);
+        right: 0;
+        padding: 5px 8px;
+        border-radius: 5px;
+        background: var(--ink);
+        color: var(--paper);
+        content: attr(data-tooltip);
+        font-size: 0.72rem;
+        line-height: 1.2;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-3px);
+        transition: opacity 140ms ease, transform 140ms ease;
+      }
+
+      .switch-setting:hover::after,
+      .switch-setting:focus-within::after { opacity: 1; transform: translateY(0); }
+
+      .switch-control {
+        display: inline-flex;
+        flex: 0 0 auto;
+        padding: 0;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .switch-control:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+      .switch-control:disabled { opacity: 0.5; cursor: not-allowed; }
+
+      .switch-track {
+        position: relative;
+        display: block;
+        width: 42px;
+        height: 24px;
+        border-radius: 999px;
+        background: #b8b8b8;
+        transition: background-color 180ms ease;
+      }
+
+      .switch-thumb {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        display: grid;
+        width: 18px;
+        height: 18px;
+        place-items: center;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.22);
+        transition: transform 180ms cubic-bezier(.2, .8, .2, 1);
+      }
+
+      .switch-control[aria-checked="true"] .switch-track { background: #657fc1; }
+      .switch-control--tail[aria-checked="true"] .switch-track { background: #d05757; }
+      .switch-control[aria-checked="true"] .switch-thumb { transform: translateX(18px); }
+
+      .switch-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        fill: #555;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotate(0);
+        transition: opacity 160ms ease, transform 220ms cubic-bezier(.2, .8, .2, 1);
+      }
+
+      .switch-icon--on { opacity: 0; transform: translate(-50%, -50%) scale(.55) rotate(-35deg); }
+      .switch-control[aria-checked="true"] .switch-icon--off { opacity: 0; transform: translate(-50%, -50%) scale(.55) rotate(35deg); }
+      .switch-control[aria-checked="true"] .switch-icon--on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
+      .switch-icon--tail { fill: #d03434; }
+
+      .content {
+        width: 100%;
+        margin: 0;
+        padding: 20px 36px 32px;
+      }
+
+      header {
+        max-width: 720px;
+        margin-bottom: 28px;
+      }
+
+      .identity {
+        margin-bottom: 16px;
+      }
+
+      .section-label,
+      .project-status {
+        font-family: inherit;
+        font-size: 0.88rem;
+        line-height: 1.4;
+        letter-spacing: 0;
+        text-transform: none;
+      }
+
+      .eyebrow {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+        line-height: 1.45;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(1.85rem, 3vw, 2.25rem);
+        font-weight: 700;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .intro {
+        margin: 0 0 10px;
+        font-size: 1rem;
+        line-height: 1.56;
+      }
+
+      .subintro { margin: 0; color: var(--muted); }
+
+      section {
+        padding: 18px 0;
+      }
+
+      .section-label {
+        margin: 0 0 8px;
+        color: var(--ink);
+        font-size: 1.3rem;
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: -0.025em;
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .section-content > :first-child { margin-top: 0; }
+      .section-content > :last-child { margin-bottom: 0; }
+
+      h2 {
+        margin: 0 0 5px;
+        color: var(--ink);
+        font-size: 1.18rem;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      p { margin: 0 0 13px; }
+
+      .projects-grid {
+        display: block;
+      }
+
+      .project {
+        display: grid;
+        grid-template-columns: 126px minmax(0, 1fr);
+        column-gap: 18px;
+        padding: 10px 0 14px;
+      }
+
+      .project + .project { margin: 0; }
+      .project > :not(.project-status) { grid-column: 2; }
+      .project-status {
+        display: block;
+        grid-column: 1;
+        grid-row: 1 / span 20;
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 400;
+      }
+      .links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 16px; }
+      .links a { white-space: nowrap; }
+      .project .links { margin-top: 3px; padding-top: 5px; }
+      .project.placeholder h2 { color: var(--ink); }
+      .project.placeholder p { color: var(--muted); }
+
+      .work-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 24px;
+        align-items: end;
+      }
+
+      .work-row .links { margin: 0; justify-self: end; }
+
+      footer {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 20px;
+        align-items: end;
+        padding-top: 18px;
+      }
+
+      .footer-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+      .small { margin: 0; color: var(--muted); font-size: 0.82rem; }
+
+      @media (max-width: 620px) {
+        body { background: var(--paper); font-size: 16px; }
+        .page { width: 100%; min-height: 100vh; margin: 0; border: 0; box-shadow: none; }
+        .topbar { min-height: 46px; padding: 10px 20px; flex-wrap: wrap; row-gap: 9px; }
+        .topnav { gap: 14px; }
+        .topnav a { font-size: 0.86rem; }
+        .topbar-controls { gap: 12px; margin-left: auto; }
+        .switch-setting::after { font-size: 0.7rem; }
+        .content { width: 100%; padding: 16px 20px 28px; }
+        header { margin-bottom: 22px; }
+        .identity { margin-bottom: 14px; }
+        .eyebrow { margin-top: 6px; }
+        .work-row, footer { grid-template-columns: 1fr; }
+        section { padding: 14px 0; }
+        .section-label { margin-bottom: 7px; }
+        .project { grid-template-columns: 1fr; gap: 5px; padding: 16px 0; }
+        .project > :not(.project-status),
+        .project-status { grid-column: 1; grid-row: auto; }
+        .project-status { margin: 0 0 2px; }
+        .work-row { align-items: start; }
+        .work-row .links { margin-top: 4px; }
+        footer { align-items: start; }
+      }
+
+      @media (max-width: 360px) {
+        .topbar { padding: 0 10px; }
+        .topnav { gap: 10px; }
+        .topbar-controls { gap: 4px; }
+        .topbar-controls { gap: 9px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .contact-pupil { transition: none; }
+        .contact-eyes.is-blinking .contact-eye { animation: none; }
+        .switch-track, .switch-thumb, .switch-icon { transition: none; }
+        #pointer-dot { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="pointer-trail" aria-hidden="true" hidden></canvas>
+    <main class="page">
+      <div class="overscroll-banner" id="overscroll-banner" aria-hidden="true">
+        <img src="overscroll-banner.png" alt="A retro computer with a blue eye on its screen" />
+      </div>
+      <nav class="topbar" aria-label="Primary navigation">
+        <div class="topnav">
+          <a href="#projects">Projects</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="topbar-controls" role="group" aria-label="Display settings">
+          <div class="switch-setting" data-tooltip="Toggle night mode">
+            <button class="switch-control switch-control--theme" id="night-toggle" type="button" role="switch" aria-label="Night mode" aria-checked="false">
+              <span class="switch-track"><span class="switch-thumb">
+                <svg class="switch-icon switch-icon--off" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 0v2M8 14v2M0 8h2m12 0h2M2.34 2.34l1.42 1.42m8.48 8.48 1.42 1.42m0-11.32-1.42 1.42m-8.48 8.48-1.42 1.42" stroke="currentColor" stroke-width="1.5"/></svg>
+                <svg class="switch-icon switch-icon--on" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.6 10.2A6.1 6.1 0 0 1 5.8 2.4a6.2 6.2 0 1 0 7.8 7.8Z"/></svg>
+              </span></span>
+            </button>
+          </div>
+          <div class="switch-setting" data-tooltip="Toggle cursor tail">
+            <button class="switch-control switch-control--tail" id="trail-toggle" type="button" role="switch" aria-label="Cursor tail" aria-checked="false">
+              <span class="switch-track"><span class="switch-thumb">
+                <svg class="switch-icon switch-icon--off" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1v12l3.2-3 2 4 1.5-.8-2-4L13 8.5 3 1Z"/></svg>
+                <svg class="switch-icon switch-icon--on switch-icon--tail" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 4H1v1.5h7V4Zm0 3H3v1.5h5V7Zm0 3H5v1.5h3V10Z"/><path d="M9 1v12l2.1-2 1.7 3.5 1.3-.7-1.7-3.5 2.6-.1L9 1Z"/></svg>
+              </span></span>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="content">
+        <header>
+          <div class="identity">
+            <h1>Chenuka Jayathilake</h1>
+            <p class="eyebrow">Designer · Product Builder · Founder</p>
+          </div>
+          <div>
+            <p class="intro">I work with emerging technologies—speech, language, and AI models—to design digital products that make everyday work simpler.</p>
+            <p class="subintro">I am also the founder of <a href="https://kultjur.lk" target="_blank" rel="noreferrer">KULTJUR DESIGNWORKS®</a>, a company for software products and digital services.</p>
+          </div>
+        </header>
+
+      <section id="projects" aria-labelledby="projects-label">
+        <p class="section-label" id="projects-label">01 / Projects</p>
+        <div class="section-content projects-grid">
+          <article class="project">
+            <span class="project-status">Building</span>
+            <h2>KULTJUR DESIGNWORKS®</h2>
+            <p>KULTJUR DESIGNWORKS® is where I develop software products and digital services.</p>
+            <p class="links"><a href="https://kultjur.lk" target="_blank" rel="noreferrer">Visit KULTJUR ↗</a></p>
+          </article>
+
+          <article class="project">
+            <span class="project-status">Live experiment</span>
+            <h2>Windows XP in a Browser</h2>
+            <p>I built this experience out of nostalgia and curiosity about what is now possible inside a web browser.</p>
+            <p>It recreates the journey from the BIOS and startup sequence to a working desktop with applications, movable windows, system sounds, and persistent interface states.</p>
+            <p>The project required extensive visual referencing, orchestration, testing, and iteration to make the experience feel authentic.</p>
+            <p class="links">
+              <a href="https://windows-xp-simuation-chenuka.vercel.app" target="_blank" rel="noreferrer">Open Windows XP ↗</a>
+              <a href="https://github.com/chestuntin/windows-xp-simuation-chenuka" target="_blank" rel="noreferrer">View source ↗</a>
+            </p>
+          </article>
+
+          <article class="project placeholder">
+            <span class="project-status">Placeholder</span>
+            <h2>Project 03</h2>
+            <p>Reserved for the next useful thing I ship.</p>
+          </article>
+
+          <article class="project placeholder">
+            <span class="project-status">Placeholder</span>
+            <h2>Project 04</h2>
+            <p>Reserved for the next useful thing I ship.</p>
+          </article>
+
+          <article class="project placeholder">
+            <span class="project-status">Placeholder</span>
+            <h2>Project 05</h2>
+            <p>Reserved for the next useful thing I ship.</p>
+          </article>
+
+          <article class="project placeholder">
+            <span class="project-status">Placeholder</span>
+            <h2>Project 06</h2>
+            <p>Reserved for the next useful thing I ship.</p>
+          </article>
+
+          <article class="project placeholder">
+            <span class="project-status">Placeholder</span>
+            <h2>Project 07</h2>
+            <p>Reserved for the next useful thing I ship.</p>
+          </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="foundation-label">
+        <p class="section-label" id="foundation-label">02 / Technical Foundation</p>
+        <div class="section-content">
+          <h2>B.Sc. Mechanical Engineering</h2>
+          <p>I studied Mechanical Engineering at <a href="https://www.hochschule-rhein-waal.de/en/" target="_blank" rel="noreferrer">Rhine-Waal University of Applied Sciences</a> in Kleve, Germany.</p>
+          <p>For my bachelor’s thesis at <a href="https://www.haw-hamburg.de/en/" target="_blank" rel="noreferrer">Hamburg University of Applied Sciences</a>, I worked on the construction and commissioning of a three-phase machine test bench. I integrated <a href="https://www.beckhoff.com/en-en/products/automation/twincat/" target="_blank" rel="noreferrer">TwinCAT</a> with <a href="https://www.mathworks.com/products/matlab.html" target="_blank" rel="noreferrer">MATLAB</a> and <a href="https://www.mathworks.com/products/simulink.html" target="_blank" rel="noreferrer">Simulink</a> through <a href="https://infosys.beckhoff.com/content/1033/tc3_ads_intro/179221899.html" target="_blank" rel="noreferrer">ADS</a> and <a href="https://www.ethercat.org/en/technology.html" target="_blank" rel="noreferrer">EtherCAT</a>, developed a speed controller, and created a graphical interface for controlling and monitoring the system in real time.</p>
+          <p class="links"><a href="chenuka-jayathilake-bachelors-thesis.pdf" target="_blank">Read the thesis ↗</a></p>
+        </div>
+      </section>
+
+      <section id="about" aria-labelledby="about-label">
+        <p class="section-label" id="about-label">03 / About</p>
+        <div class="section-content">
+          <p>I’m interested in how technology gives individuals and small teams the freedom to build useful products. I enjoy finding leverage, reducing repetitive work, and iterating efficiently until an idea becomes something real.</p>
+        </div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-label">
+        <p class="section-label" id="contact-label">04 / Let’s Connect</p>
+        <div class="section-content work-row">
+          <div>
+            <p>For opportunities, collaborations, or a good conversation, feel free to get in touch.</p>
+          </div>
+          <p class="links contact-links">
+            <a class="contact-link" href="mailto:jchenuka@gmail.com">Get in touch →</a>
+            <span class="contact-eyes" aria-hidden="true">
+              <span class="contact-eye"><span class="contact-pupil"></span></span>
+              <span class="contact-eye"><span class="contact-pupil"></span></span>
+            </span>
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        <nav class="footer-links" aria-label="Elsewhere">
+          <a href="https://github.com/chestuntin" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/chenuka-j/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+          <a href="chenuka-jayathilake-cv.pdf" target="_blank">CV ↗</a>
+          <a href="mailto:jchenuka@gmail.com">Email →</a>
+        </nav>
+        <p class="small">© 2026 Chenuka Jayathilake</p>
+      </footer>
+      </div>
+    </main>
+    <span id="pointer-dot" aria-hidden="true" hidden></span>
+    <script>
+      (() => {
+        const OVERSCROLL_BANNER_ENABLED = false;
+        const banner = document.querySelector('#overscroll-banner');
+        if (!banner || !OVERSCROLL_BANNER_ENABLED) return;
+
+        let revealed = false;
+        let wheelDistance = 0;
+        let wheelTimer;
+        let touchStartY = null;
+
+        const maxBannerHeight = () => Math.max(100, Math.min(window.innerWidth / 3, 220));
+
+        const resistedHeight = (distance) => {
+          const firstStage = Math.min(distance, 80);
+          const secondStage = Math.max(0, distance - 80);
+          return Math.min(maxBannerHeight(), firstStage * 0.55 + secondStage * 0.28);
+        };
+
+        const revealBanner = () => {
+          revealed = true;
+          window.clearTimeout(wheelTimer);
+          banner.classList.remove('is-pulling');
+          banner.style.removeProperty('--pull-height');
+          banner.classList.add('is-revealed');
+          banner.setAttribute('aria-hidden', 'false');
+        };
+
+        const onWheel = (event) => {
+          if (revealed) return;
+          if (window.scrollY > 2 || event.deltaY >= 0) {
+            wheelDistance = 0;
+            banner.classList.remove('is-pulling');
+            banner.style.removeProperty('--pull-height');
+            return;
+          }
+          event.preventDefault();
+          wheelDistance += -event.deltaY;
+          banner.classList.add('is-pulling');
+          banner.style.setProperty('--pull-height', `${resistedHeight(wheelDistance)}px`);
+          window.clearTimeout(wheelTimer);
+          if (wheelDistance >= 210) {
+            wheelDistance = 0;
+            revealBanner();
+          } else {
+            wheelTimer = window.setTimeout(() => {
+              wheelDistance = 0;
+              banner.classList.remove('is-pulling');
+              banner.style.removeProperty('--pull-height');
+            }, 480);
+          }
+        };
+
+        const onTouchStart = (event) => {
+          const touch = event.touches[0];
+          if (revealed || window.scrollY > 2 || !touch || touch.clientY > 80) {
+            touchStartY = null;
+            return;
+          }
+          if (event.target instanceof Element && event.target.closest('a, button, input, textarea, select')) {
+            touchStartY = null;
+            return;
+          }
+          touchStartY = touch.clientY;
+          banner.classList.add('is-pulling');
+        };
+
+        const onTouchMove = (event) => {
+          const touch = event.touches[0];
+          if (touchStartY === null || !touch || revealed) return;
+          const distance = Math.max(0, touch.clientY - touchStartY);
+          if (distance > 0 && distance < 150) {
+            event.preventDefault();
+            banner.style.setProperty('--pull-height', `${resistedHeight(distance)}px`);
+          }
+          if (distance >= 150) {
+            touchStartY = null;
+            revealBanner();
+          }
+        };
+
+        const onTouchEnd = () => {
+          touchStartY = null;
+          if (!revealed) {
+            banner.classList.remove('is-pulling');
+            banner.style.removeProperty('--pull-height');
+          }
+        };
+
+        window.addEventListener('wheel', onWheel, { passive: false });
+        window.addEventListener('touchstart', onTouchStart, { passive: true });
+        window.addEventListener('touchmove', onTouchMove, { passive: false });
+        window.addEventListener('touchend', onTouchEnd, { passive: true });
+        window.addEventListener('touchcancel', onTouchEnd, { passive: true });
+      })();
+    </script>
+    <script>
+      (() => {
+        const root = document.documentElement;
+        const toggle = document.querySelector('#night-toggle');
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+        if (!toggle) return;
+
+        const sync = () => {
+          const isNight = root.dataset.theme === 'dark';
+          toggle.setAttribute('aria-checked', String(isNight));
+          if (themeColor) themeColor.content = isNight ? '#090909' : '#ffffff';
+        };
+
+        toggle.addEventListener('click', () => {
+          const isNight = root.dataset.theme !== 'dark';
+          if (isNight) root.dataset.theme = 'dark';
+          else delete root.dataset.theme;
+          try { localStorage.setItem('portfolio-night-mode', isNight ? 'on' : 'off'); } catch (_) {}
+          sync();
+        });
+        sync();
+      })();
+    </script>
+    <script>
+      (() => {
+        const canvas = document.querySelector('#pointer-trail');
+        const toggle = document.querySelector('#trail-toggle');
+        if (!canvas || !toggle) return;
+        const supportsTrail = !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(pointer: fine)').matches;
+        toggle.disabled = !supportsTrail;
+        if (!supportsTrail) toggle.closest('.switch-setting').dataset.tooltip = 'Cursor tail needs a mouse with motion enabled';
+        let enabled = false;
+        try { enabled = supportsTrail && localStorage.getItem('portfolio-cursor-tail') === 'on'; } catch (_) {}
+        canvas.hidden = !enabled;
+        toggle.setAttribute('aria-checked', String(enabled));
+
+        const context = canvas.getContext('2d');
+        if (!context) return;
+
+        const trail = [];
+        const duration = 340;
+        let frame = 0;
+        let pixelRatio = 1;
+
+        const resize = () => {
+          pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.round(window.innerWidth * pixelRatio);
+          canvas.height = Math.round(window.innerHeight * pixelRatio);
+          context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        };
+
+        const draw = (now) => {
+          frame = 0;
+          if (!enabled) return;
+          while (trail.length && now - trail[0].time > duration) trail.shift();
+          context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+          if (trail.length > 1) {
+            const left = [];
+            const right = [];
+            trail.forEach((point, index) => {
+              const previous = trail[Math.max(0, index - 1)];
+              const next = trail[Math.min(trail.length - 1, index + 1)];
+              let dx = next.x - previous.x;
+              let dy = next.y - previous.y;
+              const length = Math.hypot(dx, dy) || 1;
+              const normalX = -dy / length;
+              const normalY = dx / length;
+              const progress = index / (trail.length - 1);
+              const age = now - point.time;
+              const width = 5.5 * Math.pow(progress, 1.15) * Math.min(1, Math.max(0, 1 - age / duration));
+              left.push([point.x + normalX * width, point.y + normalY * width]);
+              right.push([point.x - normalX * width, point.y - normalY * width]);
+            });
+
+            context.beginPath();
+            context.moveTo(left[0][0], left[0][1]);
+            left.slice(1).forEach(([x, y]) => context.lineTo(x, y));
+            right.reverse().forEach(([x, y]) => context.lineTo(x, y));
+            context.closePath();
+            context.fillStyle = 'rgba(255, 0, 0, 0.22)';
+            context.fill();
+          }
+
+          if (trail.length > 1) frame = requestAnimationFrame(draw);
+        };
+
+        const scheduleDraw = () => {
+          if (!frame) frame = requestAnimationFrame(draw);
+        };
+
+        window.addEventListener('resize', resize, { passive: true });
+        window.addEventListener('pointermove', (event) => {
+          if (!enabled || event.pointerType === 'touch') return;
+          const previous = trail[trail.length - 1];
+          if (!previous || Math.hypot(event.clientX - previous.x, event.clientY - previous.y) >= 2) {
+            trail.push({ x: event.clientX, y: event.clientY, time: performance.now() });
+            while (trail.length > 30) trail.shift();
+          }
+          scheduleDraw();
+        }, { passive: true });
+
+        const clear = () => {
+          trail.length = 0;
+          if (frame) cancelAnimationFrame(frame);
+          frame = 0;
+          context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        };
+
+        toggle.addEventListener('click', () => {
+          enabled = !enabled;
+          canvas.hidden = !enabled;
+          toggle.setAttribute('aria-checked', String(enabled));
+          try { localStorage.setItem('portfolio-cursor-tail', enabled ? 'on' : 'off'); } catch (_) {}
+          if (!enabled) clear();
+        });
+
+        document.documentElement.addEventListener('pointerleave', clear);
+        window.addEventListener('blur', clear);
+        resize();
+      })();
+    </script>
+    <script>
+      (() => {
+        const dot = document.querySelector('#pointer-dot');
+        if (!dot) return;
+        const links = [...document.querySelectorAll('a[href]')];
+
+        const hideDot = () => { dot.hidden = true; };
+        window.addEventListener('pointermove', (event) => {
+          if (event.pointerType === 'touch') {
+            hideDot();
+            return;
+          }
+          dot.style.left = `${event.clientX}px`;
+          dot.style.top = `${event.clientY}px`;
+          const nearLink = links.some((link) => {
+            const bounds = link.getBoundingClientRect();
+            const nearestX = Math.max(bounds.left, Math.min(event.clientX, bounds.right));
+            const nearestY = Math.max(bounds.top, Math.min(event.clientY, bounds.bottom));
+            return Math.hypot(event.clientX - nearestX, event.clientY - nearestY) <= 16;
+          });
+          dot.classList.toggle('is-near-link', nearLink);
+          dot.hidden = false;
+        }, { passive: true });
+        document.documentElement.addEventListener('pointerleave', hideDot);
+        window.addEventListener('blur', hideDot);
+      })();
+    </script>
+    <script>
+      (() => {
+        const eyes = document.querySelector('.contact-eyes');
+        if (!eyes) return;
+
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let blinkTimer;
+
+        const lookAt = (event) => {
+          if (event.pointerType === 'touch') return;
+          const bounds = eyes.getBoundingClientRect();
+          const dx = event.clientX - (bounds.left + bounds.width / 2);
+          const dy = event.clientY - (bounds.top + bounds.height / 2);
+          const distance = Math.hypot(dx, dy) || 1;
+          const strength = Math.min(3, distance / 18);
+          eyes.style.setProperty('--look-x', `${(dx / distance) * strength}px`);
+          eyes.style.setProperty('--look-y', `${(dy / distance) * strength}px`);
+        };
+
+        const blink = () => {
+          blinkTimer = null;
+          if (reducedMotion) return;
+          eyes.classList.add('is-blinking');
+          setTimeout(() => eyes.classList.remove('is-blinking'), 190);
+          blinkTimer = setTimeout(blink, 2800 + Math.random() * 4200);
+        };
+
+        const resetGaze = () => {
+          eyes.style.setProperty('--look-x', '0px');
+          eyes.style.setProperty('--look-y', '0px');
+        };
+
+        window.addEventListener('pointermove', lookAt, { passive: true });
+        window.addEventListener('pointerleave', resetGaze);
+        window.addEventListener('blur', resetGaze);
+
+        if (!reducedMotion && 'IntersectionObserver' in window) {
+          const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && blinkTimer === undefined) blinkTimer = setTimeout(blink, 1200 + Math.random() * 1600);
+            else if (!entry.isIntersecting) {
+              clearTimeout(blinkTimer);
+              blinkTimer = undefined;
+              eyes.classList.remove('is-blinking');
+            }
+          });
+          observer.observe(eyes);
+        } else if (!reducedMotion) {
+          blinkTimer = setTimeout(blink, 3000);
+        }
+      })();
+    </script>
+  </body>
+</html>
