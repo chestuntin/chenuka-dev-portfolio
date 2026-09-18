@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Chenuka Jayathilake designs products, builds websites, and turns ideas into useful digital experiences." />
     <meta name="theme-color" content="#ffffff" />
+    <link rel="stylesheet" href="garden.css" />
+    <script src="garden.js" defer></script>
     <title>Chenuka Jayathilake</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23181716'/%3E%3Cpath d='M22.7 22.1c-1.7 1.6-3.8 2.4-6.2 2.4-4.8 0-8.2-3.5-8.2-8.5s3.5-8.5 8.3-8.5c2.4 0 4.4.8 6 2.3l-2.2 2.4a5.2 5.2 0 0 0-3.7-1.5c-2.8 0-4.8 2.1-4.8 5.3s2 5.3 4.8 5.3c1.5 0 2.8-.5 3.9-1.6z' fill='white'/%3E%3C/svg%3E" />
     <script>
@@ -111,29 +113,6 @@
 
       .contact-eyes.is-blinking .contact-eye {
         animation: contact-blink 170ms ease-in-out;
-      }
-
-      .overscroll-banner {
-        width: 100%;
-        height: 0;
-        overflow: hidden;
-        background: #111;
-      }
-
-      .overscroll-banner.is-pulling {
-        height: var(--pull-height, 0px);
-      }
-
-      .overscroll-banner.is-revealed {
-        height: clamp(100px, 33.333vw, 220px);
-      }
-
-      .overscroll-banner img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center 50%;
       }
 
       body, body * {
@@ -449,9 +428,6 @@
   <body>
     <canvas id="pointer-trail" aria-hidden="true" hidden></canvas>
     <main class="page">
-      <div class="overscroll-banner" id="overscroll-banner" aria-hidden="true">
-        <img src="overscroll-banner.png" alt="A retro computer with a blue eye on its screen" />
-      </div>
       <nav class="topbar" aria-label="Primary navigation">
         <div class="topnav">
           <a href="#projects">Projects</a>
@@ -587,104 +563,20 @@
         <p class="small">© 2026 Chenuka Jayathilake</p>
       </footer>
       </div>
+      <div class="footer-garden" role="group" tabindex="0" aria-label="Interactive garden. Move your cursor or tap to guide the little creature. You can also use the left and right arrow keys.">
+        <div class="garden-scenery" aria-hidden="true">
+          <img class="garden-landscape" src="garden-landscape.png" alt="" loading="lazy" decoding="async" />
+        </div>
+        <div class="garden-white-edge" aria-hidden="true"></div>
+        <div class="garden-character" aria-hidden="true">
+          <span class="garden-shadow"></span>
+          <canvas class="garden-mascot" width="256" height="256"></canvas>
+        </div>
+        <div class="garden-foreground garden-foreground--left" aria-hidden="true"><img src="garden-foreground.png" alt="" loading="lazy" decoding="async" /></div>
+        <div class="garden-foreground garden-foreground--right" aria-hidden="true"><img src="garden-foreground.png" alt="" loading="lazy" decoding="async" /></div>
+      </div>
     </main>
     <span id="pointer-dot" aria-hidden="true" hidden></span>
-    <script>
-      (() => {
-        const OVERSCROLL_BANNER_ENABLED = false;
-        const banner = document.querySelector('#overscroll-banner');
-        if (!banner || !OVERSCROLL_BANNER_ENABLED) return;
-
-        let revealed = false;
-        let wheelDistance = 0;
-        let wheelTimer;
-        let touchStartY = null;
-
-        const maxBannerHeight = () => Math.max(100, Math.min(window.innerWidth / 3, 220));
-
-        const resistedHeight = (distance) => {
-          const firstStage = Math.min(distance, 80);
-          const secondStage = Math.max(0, distance - 80);
-          return Math.min(maxBannerHeight(), firstStage * 0.55 + secondStage * 0.28);
-        };
-
-        const revealBanner = () => {
-          revealed = true;
-          window.clearTimeout(wheelTimer);
-          banner.classList.remove('is-pulling');
-          banner.style.removeProperty('--pull-height');
-          banner.classList.add('is-revealed');
-          banner.setAttribute('aria-hidden', 'false');
-        };
-
-        const onWheel = (event) => {
-          if (revealed) return;
-          if (window.scrollY > 2 || event.deltaY >= 0) {
-            wheelDistance = 0;
-            banner.classList.remove('is-pulling');
-            banner.style.removeProperty('--pull-height');
-            return;
-          }
-          event.preventDefault();
-          wheelDistance += -event.deltaY;
-          banner.classList.add('is-pulling');
-          banner.style.setProperty('--pull-height', `${resistedHeight(wheelDistance)}px`);
-          window.clearTimeout(wheelTimer);
-          if (wheelDistance >= 210) {
-            wheelDistance = 0;
-            revealBanner();
-          } else {
-            wheelTimer = window.setTimeout(() => {
-              wheelDistance = 0;
-              banner.classList.remove('is-pulling');
-              banner.style.removeProperty('--pull-height');
-            }, 480);
-          }
-        };
-
-        const onTouchStart = (event) => {
-          const touch = event.touches[0];
-          if (revealed || window.scrollY > 2 || !touch || touch.clientY > 80) {
-            touchStartY = null;
-            return;
-          }
-          if (event.target instanceof Element && event.target.closest('a, button, input, textarea, select')) {
-            touchStartY = null;
-            return;
-          }
-          touchStartY = touch.clientY;
-          banner.classList.add('is-pulling');
-        };
-
-        const onTouchMove = (event) => {
-          const touch = event.touches[0];
-          if (touchStartY === null || !touch || revealed) return;
-          const distance = Math.max(0, touch.clientY - touchStartY);
-          if (distance > 0 && distance < 150) {
-            event.preventDefault();
-            banner.style.setProperty('--pull-height', `${resistedHeight(distance)}px`);
-          }
-          if (distance >= 150) {
-            touchStartY = null;
-            revealBanner();
-          }
-        };
-
-        const onTouchEnd = () => {
-          touchStartY = null;
-          if (!revealed) {
-            banner.classList.remove('is-pulling');
-            banner.style.removeProperty('--pull-height');
-          }
-        };
-
-        window.addEventListener('wheel', onWheel, { passive: false });
-        window.addEventListener('touchstart', onTouchStart, { passive: true });
-        window.addEventListener('touchmove', onTouchMove, { passive: false });
-        window.addEventListener('touchend', onTouchEnd, { passive: true });
-        window.addEventListener('touchcancel', onTouchEnd, { passive: true });
-      })();
-    </script>
     <script>
       (() => {
         const root = document.documentElement;
