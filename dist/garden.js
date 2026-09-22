@@ -220,5 +220,5 @@
       schedule();
     } catch (error) { console.error('Garden artwork could not be prepared.', error); }
   };
-  atlas.src = 'garden-mascot.png';
+  atlas.src = 'garden-mascot.webp';
 })();
