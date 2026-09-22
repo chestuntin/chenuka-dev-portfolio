@@ -382,6 +382,18 @@
         text-transform: uppercase;
       }
       .project p:not(.links) { max-width: 65ch; margin-bottom: 10px; line-height: 1.6; }
+      .project-summary { font-size: 1.04rem; }
+      .project-facts { display: grid; gap: 8px; margin: 5px 0 11px; }
+      .project-facts > div { display: grid; grid-template-columns: 108px minmax(0, 1fr); column-gap: 14px; }
+      .project-facts dt {
+        padding-top: 3px;
+        color: var(--muted);
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+      }
+      .project-facts dd { max-width: 65ch; margin: 0; line-height: 1.55; }
       .links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 16px; }
       .links a { white-space: nowrap; }
       .project .links { margin: 0; padding-top: 9px; }
@@ -426,6 +438,7 @@
         .project > :not(.project-status),
         .project-status { grid-column: 1; grid-row: auto; }
         .project-status { margin: 0 0 8px; }
+        .project-facts > div { grid-template-columns: 1fr; gap: 2px; }
         .work-row { align-items: start; }
         .work-row .links { margin-top: 4px; }
         footer { align-items: start; }
@@ -480,11 +493,10 @@
         <header>
           <div class="identity">
             <h1>Chenuka Jayathilake</h1>
-            <p class="eyebrow">Designer · Product Builder · Founder</p>
+            <p class="eyebrow">Full-stack developer · Interactive web apps</p>
           </div>
           <div>
             <p class="intro">I work with emerging technologies—speech, language, and AI models—to design digital products that make everyday work simpler.</p>
-            <p class="subintro">I am also the founder of <a href="https://kultjur.lk" target="_blank" rel="noreferrer">KULTJUR DESIGNWORKS®</a>, a company for software products and digital services.</p>
           </div>
         </header>
 
@@ -492,29 +504,28 @@
         <h2 class="section-label" id="projects-label"><span class="section-number">01 /</span>Projects</h2>
         <div class="section-content projects-grid">
           <article class="project">
-            <span class="project-status">Building</span>
-            <h3>KULTJUR DESIGNWORKS®</h3>
-            <p>My design and development studio for software products and digital services.</p>
-            <p class="links"><a href="https://kultjur.lk" target="_blank" rel="noreferrer">Visit KULTJUR ↗</a></p>
-          </article>
-
-          <article class="project">
-            <span class="project-status">Live experiment</span>
-            <h3>Windows XP, Rebuilt in the Browser</h3>
-            <p>A nostalgic recreation of the Windows XP experience, from the BIOS and startup sequence to a working desktop with movable windows, applications, system sounds, and persistent interface states.</p>
-            <p>I used detailed visual references, testing, and iteration to make the experience feel familiar.</p>
+            <span class="project-status">Full-stack app</span>
+            <h3>Handa (<span lang="si">හඬ</span>) — Sinhala Speech to Text</h3>
+            <p class="project-summary">A Sinhala-first transcription workspace with live microphone feedback, editable transcripts, and local session history.</p>
+            <dl class="project-facts">
+              <div><dt>Built with</dt><dd>React, TypeScript, Vite, Express, and the OpenAI transcription API.</dd></div>
+              <div><dt>My work</dt><dd>I kept the API key server-side, streamed partial text into the editor, and added local saving, copy, and export tools.</dd></div>
+            </dl>
             <p class="links">
-              <a href="https://windows-xp-simuation-chenuka.vercel.app" target="_blank" rel="noreferrer">Open Windows XP ↗</a>
-              <a href="https://github.com/chestuntin/windows-xp-simuation-chenuka" target="_blank" rel="noreferrer">View source ↗</a>
+              <a href="https://sotto-speech-studio.vercel.app" target="_blank" rel="noreferrer">Open Handa ↗</a>
+              <a href="https://github.com/chestuntin/sotto-speech-studio" target="_blank" rel="noreferrer">View source ↗</a>
             </p>
           </article>
 
           <article class="project">
-            <span class="project-status">Web application</span>
-            <h3>හඬ — Sinhala Speech to Text</h3>
-            <p>A Sinhala-first web app that turns microphone recordings into editable transcripts, with a live waveform and text updates as you speak.</p>
-            <p>Refine, copy, or export the result, then return to recent transcripts saved on your device.</p>
-            <p class="links"><a href="https://sotto-speech-studio.vercel.app" target="_blank" rel="noreferrer">Open හඬ ↗</a></p>
+            <span class="project-status">Interactive frontend</span>
+            <h3>Windows XP, Rebuilt in the Browser</h3>
+            <p class="project-summary">A browser-based Windows XP simulation that takes visitors from the BIOS sequence to an interactive desktop.</p>
+            <dl class="project-facts">
+              <div><dt>Built with</dt><dd>React, TypeScript, and CSS.</dd></div>
+              <div><dt>My work</dt><dd>I recreated the boot flow and desktop, then built movable, resizable windows with keyboard controls and viewport constraints.</dd></div>
+            </dl>
+            <p class="links"><a href="https://windows-xp-simuation-chenuka.vercel.app" target="_blank" rel="noreferrer">Open Windows XP ↗</a></p>
           </article>
         </div>
       </section>
@@ -533,6 +544,7 @@
         <h2 class="section-label" id="about-label"><span class="section-number">03 /</span>About</h2>
         <div class="section-content">
           <p>I’m interested in how technology gives individuals and small teams the freedom to build useful products. I enjoy finding leverage, reducing repetitive work, and iterating efficiently until an idea becomes something real.</p>
+          <p>I also founded <a href="https://kultjur.lk" target="_blank" rel="noreferrer">KULTJUR DESIGNWORKS®</a>, where I develop software products and digital services.</p>
         </div>
       </section>
 
