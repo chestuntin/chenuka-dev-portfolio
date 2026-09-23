@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Chenuka Jayathilake designs products, builds websites, and turns ideas into useful digital experiences." />
     <meta name="theme-color" content="#ffffff" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="preload" as="image" type="image/webp" href="garden-landscape.webp" />
     <link rel="preload" as="image" type="image/webp" href="garden-foreground.webp" />
     <link rel="preload" as="image" type="image/webp" href="garden-mascot.webp" />
@@ -20,13 +23,14 @@
     <style>
       :root {
         color-scheme: light;
+        --font-body: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+        --font-meta: "JetBrains Mono", ui-monospace, monospace;
         --ink: #171717;
         --muted: #666666;
         --line: #dedede;
         --soft: #f7f7f7;
         --link: #1658c8;
         --paper: #ffffff;
-        --canvas: #8b8b8b;
       }
 
       :root[data-theme="dark"] {
@@ -37,7 +41,6 @@
         --soft: #222120;
         --link: #9bbaff;
         --paper: #191817;
-        --canvas: #090909;
       }
 
       * { box-sizing: border-box; }
@@ -46,11 +49,11 @@
 
       body {
         margin: 0;
-        background: var(--canvas);
+        background: var(--paper);
         color: var(--ink);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-family: var(--font-body);
         font-size: 16px;
-        line-height: 1.5;
+        line-height: 1.6;
         text-rendering: optimizeLegibility;
       }
 
@@ -65,15 +68,11 @@
 
       .page {
         position: relative;
-        width: min(100% - 32px, 1000px);
-        min-height: calc(100vh - 32px);
-        margin: 16px auto;
+        width: min(100% - 40px, 760px);
+        min-height: 100vh;
+        margin: 0 auto;
         background: var(--paper);
-        border: 1px solid #d2d2d2;
-        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.09);
       }
-
-      :root[data-theme="dark"] .page { border-color: #343230; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3); }
 
       .contact-links { align-items: center; gap: 9px; }
 
@@ -165,7 +164,7 @@
         align-items: center;
         justify-content: space-between;
         min-height: 48px;
-        padding: 0 36px;
+        padding: 0 24px;
         border-bottom: 1px solid #d7d7d7;
       }
 
@@ -174,7 +173,9 @@
       .topnav { display: flex; gap: 18px; margin-right: auto; }
       .topnav a {
         color: var(--muted);
-        font-size: 0.88rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 1.5;
         text-decoration: none;
       }
       .topnav a:hover { color: var(--ink); text-decoration: underline; }
@@ -193,8 +194,8 @@
         background: var(--ink);
         color: var(--paper);
         content: attr(data-tooltip);
-        font-size: 0.72rem;
-        line-height: 1.2;
+        font-size: 0.75rem;
+        line-height: 1.5;
         white-space: nowrap;
         opacity: 0;
         pointer-events: none;
@@ -266,7 +267,7 @@
       .content {
         width: 100%;
         margin: 0;
-        padding: 34px 48px 42px;
+        padding: 34px 24px 42px;
       }
 
       header {
@@ -278,42 +279,26 @@
         margin-bottom: 24px;
       }
 
-      .section-label,
-      .project-status {
-        font-family: inherit;
-        font-size: 0.88rem;
-        line-height: 1.4;
-        letter-spacing: 0;
-        text-transform: none;
-      }
-
       .eyebrow {
         margin: 10px 0 0;
         color: var(--muted);
-        font-size: 0.8rem;
-        font-weight: 600;
-        line-height: 1.45;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        font-size: 1.125rem;
+        font-weight: 500;
+        line-height: 1.5;
       }
 
       h1 {
         margin: 0;
-        font-size: clamp(2.2rem, 4vw, 3rem);
-        font-weight: 700;
-        line-height: 1.08;
-        letter-spacing: -0.035em;
-        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 4vw, 2.25rem);
+        font-weight: 600;
+        line-height: 1.11;
+        letter-spacing: -0.025em;
       }
 
       .intro {
         max-width: 58ch;
         margin: 0 0 14px;
-        font-size: 1.15rem;
-        line-height: 1.55;
       }
-
-      .subintro { margin: 0; color: var(--muted); }
 
       section {
         padding: 28px 0 34px;
@@ -324,21 +309,18 @@
       .section-label {
         margin: 0 0 20px;
         color: var(--ink);
-        font-size: 1.65rem;
-        font-weight: 700;
-        line-height: 1.2;
-        letter-spacing: -0.035em;
-        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.125rem;
+        font-weight: 500;
+        line-height: 1.5;
       }
 
       .section-number {
         margin-right: 12px;
         color: var(--muted);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        font-size: 0.78rem;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        vertical-align: 0.18em;
+        font-family: var(--font-meta);
+        font-size: 0.75rem;
+        font-weight: 400;
+        vertical-align: 0.1em;
       }
 
       .section-content > :first-child { margin-top: 0; }
@@ -347,11 +329,9 @@
       h3 {
         margin: 0 0 9px;
         color: var(--ink);
-        font-size: 1.4rem;
-        font-weight: 700;
-        line-height: 1.22;
-        letter-spacing: -0.02em;
-        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.5;
       }
 
       p { margin: 0 0 13px; }
@@ -362,8 +342,8 @@
 
       .project {
         display: grid;
-        grid-template-columns: 116px minmax(0, 1fr);
-        column-gap: 28px;
+        grid-template-columns: 144px minmax(0, 1fr);
+        column-gap: 16px;
         padding: 23px 0 26px;
         border-top: 1px solid var(--line);
       }
@@ -376,24 +356,26 @@
         grid-row: 1 / span 20;
         margin-top: 5px;
         color: var(--muted);
-        font-size: 0.72rem;
-        font-weight: 600;
-        letter-spacing: 0.07em;
+        font-family: var(--font-meta);
+        font-size: 0.75rem;
+        font-weight: 400;
+        line-height: 1.5;
         text-transform: uppercase;
+        white-space: nowrap;
       }
-      .project p:not(.links) { max-width: 65ch; margin-bottom: 10px; line-height: 1.6; }
-      .project-summary { font-size: 1.04rem; }
+      .project p:not(.links) { max-width: 65ch; margin-bottom: 10px; }
       .project-facts { display: grid; gap: 8px; margin: 5px 0 11px; }
       .project-facts > div { display: grid; grid-template-columns: 108px minmax(0, 1fr); column-gap: 14px; }
       .project-facts dt {
         padding-top: 3px;
         color: var(--muted);
-        font-size: 0.72rem;
-        font-weight: 600;
-        letter-spacing: 0.07em;
+        font-family: var(--font-meta);
+        font-size: 0.75rem;
+        font-weight: 400;
+        line-height: 1.5;
         text-transform: uppercase;
       }
-      .project-facts dd { max-width: 65ch; margin: 0; line-height: 1.55; }
+      .project-facts dd { max-width: 65ch; margin: 0; }
       .links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 16px; }
       .links a { white-space: nowrap; }
       .project .links { margin: 0; padding-top: 9px; }
@@ -416,24 +398,20 @@
       }
 
       .footer-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
-      .small { margin: 0; color: var(--muted); font-size: 0.82rem; }
+      .small { margin: 0; color: var(--muted); font-family: var(--font-meta); font-size: 0.75rem; line-height: 1.5; }
 
       @media (max-width: 620px) {
-        body { background: var(--paper); font-size: 16px; }
-        .page { width: 100%; min-height: 100vh; margin: 0; border: 0; box-shadow: none; }
+        .page { width: 100%; }
         .topbar { min-height: 46px; padding: 10px 20px; flex-wrap: wrap; row-gap: 9px; }
         .topnav { gap: 14px; }
-        .topnav a { font-size: 0.86rem; }
         .topbar-controls { gap: 12px; margin-left: auto; }
-        .switch-setting::after { font-size: 0.7rem; }
         .content { width: 100%; padding: 22px 20px 32px; }
         header { margin-bottom: 32px; }
         .identity { margin-bottom: 20px; }
         .eyebrow { margin-top: 8px; }
-        .intro { font-size: 1.08rem; }
         .work-row, footer { grid-template-columns: 1fr; }
         section { padding: 24px 0 28px; }
-        .section-label { margin-bottom: 14px; font-size: 1.5rem; }
+        .section-label { margin-bottom: 14px; }
         .project { grid-template-columns: 1fr; gap: 0; padding: 21px 0 23px; }
         .project > :not(.project-status),
         .project-status { grid-column: 1; grid-row: auto; }
@@ -578,7 +556,6 @@
         <div class="garden-scenery" aria-hidden="true">
           <img class="garden-landscape" src="garden-landscape.webp" alt="" loading="eager" decoding="async" />
         </div>
-        <div class="garden-white-edge" aria-hidden="true"></div>
         <div class="garden-character" aria-hidden="true">
           <span class="garden-shadow"></span>
           <canvas class="garden-mascot" width="256" height="256"></canvas>

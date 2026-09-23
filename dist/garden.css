@@ -10,18 +10,13 @@
 }
 
 .footer-garden:focus-visible { outline: 2px solid var(--link); outline-offset: -3px; }
-.garden-scenery, .garden-white-edge { position: absolute; inset: 0; pointer-events: none; }
-.garden-scenery { z-index: 0; }
+.garden-scenery { position: absolute; z-index: 0; inset: 0; pointer-events: none; }
 .garden-landscape {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center bottom;
-}
-.garden-white-edge {
-  z-index: 1;
-  background: linear-gradient(to bottom, var(--paper) 0%, transparent 35%);
 }
 .garden-character {
   position: absolute;
@@ -85,9 +80,6 @@
 }
 :root[data-theme="dark"] .garden-scenery,
 :root[data-theme="dark"] .garden-foreground { filter: brightness(.38) saturate(.72) hue-rotate(17deg); }
-:root[data-theme="dark"] .garden-white-edge {
-  background: linear-gradient(to bottom, var(--paper), rgba(25, 24, 23, .94) 8%, rgba(25, 24, 23, .5) 35%, transparent 68%);
-}
 :root[data-theme="dark"] .garden-mascot { filter: brightness(.8) saturate(.82); }
 :root[data-theme="dark"] .garden-shadow { opacity: .8; }
 @media (max-width: 620px) {
