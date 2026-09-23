@@ -1,7 +1,8 @@
 .footer-garden {
   position: relative;
   isolation: isolate;
-  width: 100%;
+  width: calc(100% - 48px);
+  margin-inline: auto;
   height: clamp(240px, 34vw, 340px);
   overflow: hidden;
   background: var(--paper);
@@ -83,8 +84,7 @@
 :root[data-theme="dark"] .garden-mascot { filter: brightness(.8) saturate(.82); }
 :root[data-theme="dark"] .garden-shadow { opacity: .8; }
 @media (max-width: 620px) {
-  .footer-garden { height: 260px; }
-  .garden-landscape { width: 160%; max-width: none; margin-left: -30%; }
+  .footer-garden { width: calc(100% - 40px); height: 260px; }
   .garden-foreground { width: 50.375%; /* Half of 155%, scaled to 65%. */ }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -11,7 +11,7 @@
     <link rel="preload" as="image" type="image/webp" href="garden-landscape.webp" />
     <link rel="preload" as="image" type="image/webp" href="garden-foreground.webp" />
     <link rel="preload" as="image" type="image/webp" href="garden-mascot.webp" />
-    <link rel="stylesheet" href="garden.css" />
+    <link rel="stylesheet" href="garden.css?v=aligned-gutters-2" />
     <script src="garden.js" defer></script>
     <title>Chenuka Jayathilake</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23181716'/%3E%3Cpath d='M22.7 22.1c-1.7 1.6-3.8 2.4-6.2 2.4-4.8 0-8.2-3.5-8.2-8.5s3.5-8.5 8.3-8.5c2.4 0 4.4.8 6 2.3l-2.2 2.4a5.2 5.2 0 0 0-3.7-1.5c-2.8 0-4.8 2.1-4.8 5.3s2 5.3 4.8 5.3c1.5 0 2.8-.5 3.9-1.6z' fill='white'/%3E%3C/svg%3E" />
@@ -164,7 +164,7 @@
         align-items: center;
         justify-content: space-between;
         min-height: 48px;
-        padding: 0 24px;
+        margin: 0 24px;
         border-bottom: 1px solid #d7d7d7;
       }
 
@@ -402,7 +402,7 @@
 
       @media (max-width: 620px) {
         .page { width: 100%; }
-        .topbar { min-height: 46px; padding: 10px 20px; flex-wrap: wrap; row-gap: 9px; }
+        .topbar { min-height: 46px; margin: 0 20px; padding: 10px 0; flex-wrap: wrap; row-gap: 9px; }
         .topnav { gap: 14px; }
         .topbar-controls { gap: 12px; margin-left: auto; }
         .content { width: 100%; padding: 22px 20px 32px; }
@@ -423,7 +423,7 @@
       }
 
       @media (max-width: 360px) {
-        .topbar { padding: 0 10px; }
+        .topbar { padding: 0; }
         .topnav { gap: 10px; }
         .topbar-controls { gap: 4px; }
         .topbar-controls { gap: 9px; }
