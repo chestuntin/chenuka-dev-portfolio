@@ -1,0 +1,8 @@
+name = "chenuka-jay"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-09-16"
+
+[[env.production.d1_databases]]
+binding = "VISITS_DB"
+database_name = "chenuka-jay-visits"
+database_id = "75e21a8e-e50a-4158-bc97-d60744c21c9f"

@@ -571,7 +571,10 @@
           <a href="chenuka-jayathilake-cv.pdf" target="_blank">CV ↗</a>
           <a href="mailto:jchenuka@gmail.com">Email →</a>
         </nav>
-        <p class="small">© 2026 Chenuka Jayathilake</p>
+        <div>
+          <p class="small">© 2026 Chenuka Jayathilake</p>
+          <p class="small" id="visit-count" hidden></p>
+        </div>
       </footer>
       </div>
       <div class="footer-garden" role="group" tabindex="0" aria-label="Interactive garden. Move your cursor or tap to guide the little creature. You can also use the left and right arrow keys.">
@@ -588,6 +591,24 @@
       </div>
     </main>
     <span id="pointer-dot" aria-hidden="true" hidden></span>
+    <script>
+      (() => {
+        const label = document.querySelector('#visit-count');
+        if (!label) return;
+
+        fetch('/api/views', { method: 'POST', cache: 'no-store' })
+          .then((response) => {
+            if (!response.ok) throw new Error('Counter unavailable');
+            return response.json();
+          })
+          .then(({ total }) => {
+            if (!Number.isSafeInteger(total) || total < 1) return;
+            label.textContent = `Visit #${total.toLocaleString('en-US')} — thanks for stopping by.`;
+            label.hidden = false;
+          })
+          .catch(() => {});
+      })();
+    </script>
     <script>
       (() => {
         const root = document.documentElement;
