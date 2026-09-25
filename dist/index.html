@@ -416,6 +416,8 @@
       }
 
       .footer-links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+      .footer-signoff { justify-self: end; text-align: right; }
+      .footer-signoff #visit-count { margin-bottom: 4px; }
       .small { margin: 0; color: var(--muted); font-size: 0.82rem; }
 
       @media (max-width: 620px) {
@@ -571,9 +573,9 @@
           <a href="chenuka-jayathilake-cv.pdf" target="_blank">CV ↗</a>
           <a href="mailto:jchenuka@gmail.com">Email →</a>
         </nav>
-        <div>
-          <p class="small">© 2026 Chenuka Jayathilake</p>
+        <div class="footer-signoff">
           <p class="small" id="visit-count" hidden></p>
+          <p class="small">© 2026 Chenuka Jayathilake</p>
         </div>
       </footer>
       </div>
