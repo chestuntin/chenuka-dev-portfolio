@@ -1,0 +1,10 @@
+import { cpSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+const root = fileURLToPath(new URL('../', import.meta.url));
+const source = path.join(root, 'experience');
+const result = spawnSync(process.platform === 'win32' ? 'npm.cmd' : 'npm', ['run', 'build'], { cwd: source, stdio: 'inherit' });
+if (result.status !== 0) process.exit(result.status || 1);
+cpSync(path.join(source, 'dist-vercel'), path.join(root, 'dist'), { recursive: true });
+console.log('Updated Cloudflare Pages dist/ from experience/ source.');

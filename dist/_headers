@@ -1,0 +1,9 @@
+/xp/*
+  X-Robots-Tag: noindex, follow
+/scene/*
+  X-Robots-Tag: noindex, follow
+/portfolio/*
+  X-Robots-Tag: noindex, follow
+  X-Content-Type-Options: nosniff
+/icons/SOURCES.md
+  X-Robots-Tag: noindex
