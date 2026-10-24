@@ -2,7 +2,7 @@
 
 Live: https://chenuka-jay.pages.dev/
 
-The homepage opens a 3D desk and CRT monitor. Windows XP starts with the portfolio open in an Internet Explorer 6-style window. Closing it reveals the desktop. External portfolio links open in real browser tabs. Start → Restart runs the BIOS and Windows startup sequence.
+The homepage opens a 3D desk and CRT monitor. Windows XP starts with the portfolio open in an Internet Explorer 6-style window. Closing it reveals the desktop. External portfolio links open in real browser tabs. A CRT-style loader reports actual scene progress and reveals the room smoothly. Ambience is requested first and fades in gently; an accessible sound control handles autoplay restrictions and shares XP volume/mute preferences. Start → Restart runs the BIOS and Windows startup sequence.
 
 ## Repository layout
 

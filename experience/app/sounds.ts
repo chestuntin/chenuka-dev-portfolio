@@ -12,6 +12,7 @@ export type Sound =
 const soundSettingsKey = 'xp-sound-settings-v2';
 let volume = 1;
 let muted = false;
+let settingsListenerBound = false;
 const voices = new Map<HTMLAudioElement, number>();
 const soundGains: Record<Sound, number> = {
   mouseDown: 1,
@@ -50,6 +51,12 @@ export function configureSound(v: number, m: boolean) {
   } catch {}
 }
 export function loadSoundSettings() {
+  if (!settingsListenerBound && typeof window !== 'undefined') {
+    settingsListenerBound = true;
+    window.addEventListener('storage', (event) => {
+      if (event.key === soundSettingsKey) loadSoundSettings();
+    });
+  }
   try {
     const s = JSON.parse(localStorage.getItem(soundSettingsKey) || 'null');
     if (

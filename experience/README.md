@@ -72,3 +72,7 @@ Landing still opens the running desktop immediately. Start → Restart (or Turn 
 The public homepage is https://chenuka-jay.pages.dev/. Production deploys the GitHub repository's tracked `dist/` directory from `main`, with editable source under `experience/`. The root `functions/api/views.js`, D1 binding, and migrations are preserved from the existing Pages project. The portfolio reuses its production visit-counter endpoint; no database migration or counter reset is needed.
 
 From the deployment repository root, `node scripts/build-homepage.mjs` rebuilds and copies the static release into `dist/`. Commit the source and generated release together; pushing `main` triggers Cloudflare Pages. Original root-level CV and thesis PDF links remain valid.
+
+## Loading and ambience
+
+The entry shows a CRT-inspired loading screen with actual scene-resource counts, a smooth room reveal, retry/direct-desktop fallbacks, and reduced-motion styling. The room ambience is requested before mounting the 3D iframe and fades from silence over 2.4 seconds once playback is permitted. A persistent sound control handles browsers that require a user gesture; entering silently remains automatic when autoplay is blocked. Saved XP mute/volume preferences are shared across the entry, scene effects, and desktop. The ambience is owned by the entry page, so the retained runtime does not play a second copy; its camera still supplies distance-dependent volume and filtering. Hidden tabs pause the track and fade it back in on return.

@@ -28,6 +28,14 @@ export function connectDesktopBridge() {
     const input = (event: Event) => {
       window.dispatchEvent(new Event('portfolio-activity'));
       const eventType = event.type;
+      if (
+        event.isTrusted &&
+        (eventType === 'mousedown' || eventType === 'keydown')
+      ) {
+        try {
+          window.top?.dispatchEvent(new Event('portfolio-sound-gesture'));
+        } catch {}
+      }
       if (eventType === 'keydown' || eventType === 'keyup') {
         send({ eventType, key: (event as KeyboardEvent).key });
         return;
