@@ -23,6 +23,22 @@ function createAmbience(report: (mode: SceneSoundMode) => void): Controls {
   const audio = new Audio('/scene/audio/atmosphere/office.mp3');
   audio.preload = 'auto';
   audio.loop = true;
+  // Warm the desktop's short effects without playing them before entry.
+  const effects = [
+    'mouse-down.mp3',
+    'mouse-up.mp3',
+    'navigation.wav',
+    'warning.wav',
+    'recycle.wav',
+    'logoff.wav',
+    'shutdown.wav',
+    'startup.wav',
+  ].map((filename) => {
+    const effect = new Audio(`/sounds/${filename}`);
+    effect.preload = 'auto';
+    effect.load();
+    return effect;
+  });
   const source = context.createMediaElementSource(audio);
   const filter = context.createBiquadFilter();
   filter.type = 'lowpass';
@@ -31,6 +47,7 @@ function createAmbience(report: (mode: SceneSoundMode) => void): Controls {
   const gain = context.createGain();
   gain.gain.value = 0;
   source.connect(filter).connect(gain).connect(context.destination);
+  let activated = false;
   let disposed = false,
     audible = false,
     roomVolume = 0.08,
@@ -73,7 +90,7 @@ function createAmbience(report: (mode: SceneSoundMode) => void): Controls {
     }
   }
   function start() {
-    if (disposed || document.hidden) return;
+    if (!activated || disposed || document.hidden) return;
     const { muted, volume } = getSoundSettings();
     if (muted || volume === 0) {
       publish('muted');
@@ -135,6 +152,7 @@ function createAmbience(report: (mode: SceneSoundMode) => void): Controls {
   return {
     start,
     enable() {
+      activated = true;
       const { volume } = getSoundSettings();
       configureSound(volume || 1, false);
       audible = false;
@@ -166,6 +184,11 @@ function createAmbience(report: (mode: SceneSoundMode) => void): Controls {
       document.removeEventListener('pointerdown', gesture, true);
       document.removeEventListener('keydown', gesture, true);
       document.removeEventListener('visibilitychange', visibility);
+      for (const effect of effects) {
+        effect.pause();
+        effect.removeAttribute('src');
+        effect.load();
+      }
       audio.pause();
       audio.removeAttribute('src');
       audio.load();
