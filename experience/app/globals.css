@@ -2668,10 +2668,18 @@ textarea {
   letter-spacing: 0.06em;
 }
 .scene-enter {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
   border: 0;
   background: transparent;
   color: #aaa;
-  padding: 22px 28px;
+  padding: 0;
   cursor: pointer;
   transition: color 180ms;
 }
@@ -2684,6 +2692,9 @@ textarea {
 .scene-sound-control:focus-visible {
   outline: 1px solid #888;
   outline-offset: 5px;
+}
+.scene-enter:focus-visible {
+  outline-offset: -12px;
 }
 .scene-entry-wait {
   color: #777;
